@@ -86,12 +86,18 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        isGrounded = true;
+        if (other.gameObject.CompareTag("Platforms"))
+        {
+            isGrounded = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        isGrounded = false;
+        if (other.gameObject.CompareTag("Platforms"))
+        {
+            isGrounded = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
