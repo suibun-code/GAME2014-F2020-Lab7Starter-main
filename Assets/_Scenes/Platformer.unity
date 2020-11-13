@@ -2741,8 +2741,8 @@ GameObject:
   - component: {fileID: 2013978524}
   - component: {fileID: 2013978528}
   - component: {fileID: 2013978527}
-  - component: {fileID: 2013978529}
   - component: {fileID: 2013978530}
+  - component: {fileID: 2013978529}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2885,9 +2885,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joystick: {fileID: 465079448}
   joystickHorizontalSensitivity: 0.1
-  joystickVerticalSensitivity: 0.2
+  joystickVerticalSensitivity: 0.5
   horizontalForce: 500
-  verticalForce: 10000
+  verticalForce: 500
   isGrounded: 0
   isJumping: 0
   spawnPoint: {fileID: 265498347}
