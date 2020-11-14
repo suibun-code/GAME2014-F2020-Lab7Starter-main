@@ -6,9 +6,12 @@ public class OpossumBehaviour : MonoBehaviour
 {
     public float runForce;
     public Rigidbody2D rigidbody2D;
-    public Transform lookAheadPoint;
-    public LayerMask collisionLayer;
+    public Transform wallCastPoint;
+    public Transform rampCastPoint;
+    public LayerMask wallLayer;
+    public LayerMask rampLayer;
     public bool isGroundAhead;
+    public bool onRamp;
 
     // Start is called before the first frame update
     void Start()
@@ -19,15 +22,43 @@ public class OpossumBehaviour : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        _LookBelow();
         _LookAhead();
         _Move();
     }
 
+    private void _LookBelow()
+    {
+        var groundHit = Physics2D.Linecast(transform.position, rampCastPoint.position, rampLayer);
+
+        if (groundHit)
+        {
+            if (groundHit.collider.CompareTag("Ramps"))
+                onRamp = true;
+            else
+                onRamp = false;
+        }
+        else
+            onRamp = false;
+
+        Debug.DrawLine(transform.position, rampCastPoint.position, Color.green);
+    }
+
     private void _LookAhead()
     {
-        isGroundAhead = Physics2D.Linecast(transform.position, lookAheadPoint.position, collisionLayer);
+        var groundHit = Physics2D.Linecast(transform.position, wallCastPoint.position, wallLayer);
 
-        Debug.DrawLine(transform.position, lookAheadPoint.position, Color.green);
+        if (groundHit)
+        {
+            if (groundHit.collider.CompareTag("InvisWalls"))
+                isGroundAhead = true;
+            else
+                isGroundAhead = false;
+        }
+        else
+            isGroundAhead = false;
+
+        Debug.DrawLine(transform.position, wallCastPoint.position, Color.red);
     }
 
     private void _Move()
@@ -35,6 +66,16 @@ public class OpossumBehaviour : MonoBehaviour
         if (!isGroundAhead)
         {
             rigidbody2D.AddForce(Vector2.left * runForce * Time.deltaTime * transform.localScale.x);
+
+            if (onRamp)
+            {
+                rigidbody2D.AddForce(Vector2.up * runForce * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, -36.0f);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+            }
 
             rigidbody2D.velocity *= 0.90f;
         }

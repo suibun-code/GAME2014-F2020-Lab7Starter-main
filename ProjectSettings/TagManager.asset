@@ -9,6 +9,7 @@ TagManager:
   - Platforms
   - Walls
   - InvisWalls
+  - Ramps
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Platforms
   - Walls
   - InvisWall
-  - 
+  - Ramps
   - 
   - 
   - 
