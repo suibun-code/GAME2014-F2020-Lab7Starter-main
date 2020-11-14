@@ -32,7 +32,7 @@ public class OpossumBehaviour : MonoBehaviour
 
     private void _Move()
     {
-        if (isGroundAhead)
+        if (!isGroundAhead)
         {
             rigidbody2D.AddForce(Vector2.left * runForce * Time.deltaTime * transform.localScale.x);
 
