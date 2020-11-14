@@ -65,12 +65,19 @@ public class OpossumBehaviour : MonoBehaviour
     {
         if (!isGroundAhead)
         {
-            rigidbody2D.AddForce(Vector2.left * runForce * Time.deltaTime * transform.localScale.x);
+            rigidbody2D.AddForce(Vector2.left * runForce * Time.deltaTime * transform.localScale.x); 
 
             if (onRamp)
             {
-                rigidbody2D.AddForce(Vector2.up * runForce * Time.deltaTime);
-                transform.rotation = Quaternion.Euler(0.0f, 0.0f, -36.0f);
+                if (transform.localScale.x == 1)
+                {
+                    rigidbody2D.AddForce(Vector2.up * (runForce * 0.75f) * Time.deltaTime);
+                }
+                else
+                {
+
+                }
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, -30.0f);
             }
             else
             {
