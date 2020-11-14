@@ -6,7 +6,9 @@ public class OpossumBehaviour : MonoBehaviour
 {
     public float runForce;
     public Rigidbody2D rigidbody2D;
-    public bool isGrounded;
+    public Transform lookAheadPoint;
+    public LayerMask collisionLayer;
+    public bool isGroundAhead;
 
     // Start is called before the first frame update
     void Start()
@@ -17,29 +19,28 @@ public class OpossumBehaviour : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        _LookAhead();
         _Move();
+    }
+
+    private void _LookAhead()
+    {
+        isGroundAhead = Physics2D.Linecast(transform.position, lookAheadPoint.position, collisionLayer);
+
+        Debug.DrawLine(transform.position, lookAheadPoint.position, Color.green);
     }
 
     private void _Move()
     {
-        rigidbody2D.AddForce(Vector2.left * runForce * Time.deltaTime);
-
-        rigidbody2D.velocity *= 0.90f;
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Platforms"))
+        if (isGroundAhead)
         {
-            isGrounded = true;
+            rigidbody2D.AddForce(Vector2.left * runForce * Time.deltaTime * transform.localScale.x);
+
+            rigidbody2D.velocity *= 0.90f;
         }
-    }
-
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Platforms"))
+        else
         {
-            isGrounded = false;
+            transform.localScale = new Vector3(transform.localScale.x * -1.0f, transform.localScale.y, transform.localScale.z);
         }
     }
 }
